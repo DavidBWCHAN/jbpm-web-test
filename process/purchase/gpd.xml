@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="purchase" width="1012" height="558">
+  <node name="writePurchase" x="364" y="43" width="154" height="43">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="fork1" x="326" y="135" width="252" height="24">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="cancel" x="245" y="221" width="150" height="47">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="managerApprove" x="538" y="226" width="152" height="46">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="join1" x="350" y="316" width="252" height="24">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="decision" x="409" y="408" width="132" height="44">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="editPurchase" x="873" y="115" width="138" height="47">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="end" x="414" y="513" width="132" height="44"/>
+</root-container>

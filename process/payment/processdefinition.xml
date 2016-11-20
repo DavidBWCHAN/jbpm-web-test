@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="payment">
+<start-state name="writebill">
+		<task name="writebill">
+			<description>
+				payment.write.bill
+			</description>
+			<controller>
+				<variable access="write" name="title"></variable>
+				<variable access="write" name="money_count"></variable>
+				<variable access="write" name="remark"></variable>
+			</controller>
+		</task>
+		<transition to="managerapprove"></transition>
+	</start-state>
+
+
+	<task-node name="managerapprove">
+		<task name="managerapprove">
+			<description>
+				payment.manager.approve
+			</description>
+			<assignment class="test.assignment.ManagerAssignment"></assignment>
+		</task>
+		<transition to="notifyissueperson" name="disagree"></transition>
+		<transition to="checkmoneycount" name="agree"></transition>
+	</task-node>
+
+	<task-node name="supermanagerapprove">
+		<task name="supermanagerapprove">
+			<description>
+				payment.super.manager.approve
+			</description>
+			<assignment actor-id="supermanager"></assignment>
+			<controller>
+				<variable access="read" name="title"></variable>
+				<variable access="read" name="money_count"></variable>
+				<variable access="read" name="remark"></variable>
+				<variable access="read" name="issueperson"></variable>
+			</controller>
+		</task>
+		<transition to="cashierhand"></transition>
+	</task-node>
+	
+	<decision name="checkmoneycount" expression='#{money_count&gt;1000?"morethousand":"lessthousand"}'>
+		<transition to="cashierhand" name="lessthousand"></transition>
+		<transition to="supermanagerapprove" name="morethousand"></transition>
+	</decision>
+
+	<task-node name="cashierhand">
+		<task name="cashierhand">
+			<description>
+				payment.cashier.process
+			</description>
+			<assignment actor-id="cashier"></assignment>
+			<controller>
+				<variable access="read" name="title"></variable>
+				<variable access="read" name="money_count"></variable>
+				<variable access="read" name="remark"></variable>
+				<variable access="read" name="issueperson"></variable>
+			</controller>
+		</task>
+		<transition to="notifyissueperson"></transition>
+	</task-node>
+
+	<node name="notifyissueperson">
+		<action name="notifyissueperson" class="test.action.NotifyPaymentAction"></action>
+		<transition to="toend"></transition>
+	</node>
+
+	<end-state name="toend"></end-state>
+</process-definition>

@@ -1,0 +1,11 @@
+<jbpm-configuration>
+
+  <!-- 
+    The default configurations can be found in org/jbpm/default.jbpm.cfg.xml 
+    Those configurations can be overwritten by putting this file called 
+    jbpm.cfg.xml on the root of the classpath and put in the customized values.
+  -->
+ <string name="jbpm.mail.smtp.host" value="smtp.qq.com" />
+ <bean name="jbpm.mail.address.resolver" class="test.handler.MailAddressResolver" singleton="true" />
+ <string name="jbpm.mail.from.address" value="995626566@qq.com" />
+</jbpm-configuration>

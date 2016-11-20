@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="purchase">
+
+
+	<start-state name="writePurchase">
+		<task name="writePurchase">
+			<description>
+				write.purchase.apply
+			</description>
+			<controller>
+				<variable access="write" name="purchaseId"></variable>
+			</controller>
+		</task>
+		<transition to="fork1"></transition>
+	</start-state>
+
+
+	<fork name="fork1">
+		<transition to="cancel" name="tocancelapply"></transition>
+		<transition to="managerApprove" name="tomanager"></transition>
+	</fork>
+
+	<task-node name="cancel">
+		<task name="cancel">
+			<description>
+				cancel.purchase.apply
+			</description>
+			<assignment actor-id="#{issue_person}"></assignment>
+			<controller>
+				<variable access="read,write" name="purchaseId"></variable>
+			</controller>
+		</task>
+		<transition to="join1"></transition>
+	</task-node>
+
+	<task-node name="managerApprove">
+		<task name="managerApprove">
+			<description>
+				approve.purchase.apply
+			</description>
+			<assignment actor-id="manager1"></assignment>
+			<controller>
+				<variable access="read" name="purchaseId"></variable>
+			</controller>
+			<reminder duedate="5 seconds" repeat="20 seconds" ></reminder>
+		</task>
+		<transition to="join1"></transition>
+	</task-node>
+
+	<join name="join1">
+		<event type="node-enter">
+			<action name="change join node" class="test.action.ModJoinNodeAction"></action>
+		</event>
+		<transition to="decision"></transition>
+	</join>
+
+	<decision name="decision">
+		<handler class="test.handler.TestDecisionHandler"></handler>
+		<transition to="editPurchase" name="tobackmod"></transition>
+		<transition to="end" name="toend"></transition>
+	</decision>
+
+	<task-node name="editPurchase">
+		<task name="editPurchase">
+			<description>
+				mod.purchase.apply
+			</description>
+			<assignment actor-id="#{issue_person}"></assignment>
+			<controller>
+				<variable access="read" name="purchaseId"></variable>
+			</controller>
+		</task>
+		<transition to="fork1"></transition>
+	</task-node>
+
+
+	<end-state name="end">
+		<event type="node-enter">
+			<action name="notifyApply" class="test.action.NotifyPurchaseAction"></action>
+		</event>
+	</end-state>
+
+
+</process-definition>
